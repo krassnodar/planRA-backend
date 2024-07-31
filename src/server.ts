@@ -22,7 +22,6 @@ app.use(cors());
 app.use(express.json());
 
 app.post("/api/replicate", async (req, res) => {
-  console.log("SERVER REQUEST: ", req.body);
   console.log("REPLICATE_API_KEY: ", process.env.REPLICATE_API_KEY);
 
   try {
@@ -37,13 +36,11 @@ app.post("/api/replicate", async (req, res) => {
       }
     );
 
-    // console.log("RESPONSE:  ", response);
     res.json(response.data);
   } catch (error: any) {
-    console.log("[ERROR]:  ", error);
     const customError = error as CustomError;
     customError?.response &&
-      console.log("[ERROR]: оссновной запрос:  ", customError.response.data);
+      console.log("[ERROR]: основной запрос:  ", customError.response.data);
     res
       .status(500)
       .json({ error: customError.response?.data.title || "Unknown error" });
@@ -62,11 +59,12 @@ app.get("/api/replicate/:id", async (req, res) => {
     );
     res.json(response.data);
   } catch (error) {
-    console.log("[ERROR]: predict запрос:  ", error!.response!.data);
-
+    const customError = error as CustomError;
+    customError?.response &&
+      console.log("[ERROR]: predict запрос:  ", customError.response.data);
     res
       .status(500)
-      .json({ error: "An error occurred while processing the request" });
+      .json({ error: customError.response?.data.title || "Unknown error" });
   }
 });
 
