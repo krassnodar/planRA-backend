@@ -21,7 +21,7 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-const token = "r8_cwWLf6uAhgQkDrvDV3432LUPJNxdtjF2KEUda";
+const token = "r8_2KIjO8haeidixlFf06D7w8sfwbgZOtS3ywm7L";
 
 app.post("/api/replicate", async (req, res) => {
   console.log("REPLICATE_API_KEY: ", process.env.REPLICATE_API_KEY);
