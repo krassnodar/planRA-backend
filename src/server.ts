@@ -62,7 +62,7 @@ app.get("/api/replicate/:id", async (req, res) => {
     );
     res.json(response.data);
   } catch (error) {
-    console.log("[ERROR]: predict запрос:  ", error);
+    console.log("[ERROR]: predict запрос:  ", error!.response!.data);
 
     res
       .status(500)
