@@ -23,6 +23,8 @@ app.use(express.json());
 
 app.post("/api/replicate", async (req, res) => {
   console.log("SERVER REQUEST: ", req.body);
+  console.log("REPLICATE_API_KEY: ", process.env.REPLICATE_API_KEY);
+
   try {
     const response = await axios.post(
       "https://api.replicate.com/v1/predictions",
@@ -35,12 +37,13 @@ app.post("/api/replicate", async (req, res) => {
       }
     );
 
-    console.log("RESPONSE:  ", response);
+    // console.log("RESPONSE:  ", response);
     res.json(response.data);
   } catch (error: any) {
+    console.log("[ERROR]:  ", error);
     const customError = error as CustomError;
     customError?.response &&
-      console.log("ERROR response:  ", customError.response.data);
+      console.log("[ERROR]: оссновной запрос:  ", customError.response.data);
     res
       .status(500)
       .json({ error: customError.response?.data.title || "Unknown error" });
@@ -59,6 +62,8 @@ app.get("/api/replicate/:id", async (req, res) => {
     );
     res.json(response.data);
   } catch (error) {
+    console.log("[ERROR]: predict запрос:  ", error);
+
     res
       .status(500)
       .json({ error: "An error occurred while processing the request" });
