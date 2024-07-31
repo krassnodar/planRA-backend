@@ -16,7 +16,7 @@ interface CustomError extends Error {
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 500;
+const port = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
@@ -65,6 +65,18 @@ app.get("/api/replicate/:id", async (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+const server = app.listen(port, () => {
+  const addressInfo = server.address();
+  if (addressInfo && typeof addressInfo === "object") {
+    let host = addressInfo.address;
+    const port = addressInfo.port;
+
+    if (host === "::") {
+      host = "localhost"; // This will make it more readable for most common cases
+    }
+
+    console.log(`Server is running on http://${host}:${port}`);
+  } else {
+    console.error("Failed to get the address information");
+  }
 });
