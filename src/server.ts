@@ -21,7 +21,7 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-const token = "r8_2KIjO8haeidixlFf06D7w8sfwbgZOtS3ywm7L";
+// const token = "r8_PaUP13ieia7jXMvcqhC0oX2CSIUqslz0C3hZv";
 
 app.post("/api/replicate", async (req, res) => {
   console.log("REPLICATE_API_KEY: ", process.env.REPLICATE_API_KEY);
@@ -55,7 +55,7 @@ app.get("/api/replicate/:id", async (req, res) => {
       `https://api.replicate.com/v1/predictions/${req.params.id}`,
       {
         headers: {
-          Authorization: `Token ${token}`,
+          Authorization: `Token ${process.env.REPLICATE_API_KEY}`,
         },
       }
     );
